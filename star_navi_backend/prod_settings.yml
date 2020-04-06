@@ -1,0 +1,14 @@
+# I would never include keys and password in a file like this, but I think this project must be reproducible, not safe
+# pls fill empty settings
+# You can read about settings in README.md
+
+project:
+  django_secret_key: 'nf($8)==@pyo!)d4ye+()ae3!bh!3*6^z9l*t808jpv33&9p)0'
+  clearbit_key:
+  emailhunter_key:
+  adorable_avatar: true
+generator:
+  number_of_users:
+  max_posts_per_user:
+  max_likes_per_user:
+  unsplash_key: 'vl_QVrMQxy3WpG4V4X9n5y9LBhJN3VYncqBxNr3IP5E' #Note that base usplash api plan allows only 50 requests/hour
