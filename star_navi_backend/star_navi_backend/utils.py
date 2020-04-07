@@ -54,8 +54,8 @@ def soft_get(data: dict, set_name: str, tp: type):
     def default(val):
         defaults = dict(
             api_sleep=0.07,
-            end_datetime=None,
-            start_datetime=None,
+            end_datetime='now',
+            start_datetime='-2M',
             max_post_length=1024,
             image_generation=True,
             images_chance=0.333,
