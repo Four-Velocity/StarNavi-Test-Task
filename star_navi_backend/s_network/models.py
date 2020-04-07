@@ -34,7 +34,7 @@ class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField('dateTime published', auto_now_add=True)
     image = models.ImageField(upload_to='posts', blank=True)
-    creator = models.ForeignKey(User, on_delete=models.PROTECT)
+    creator = models.ForeignKey(User, on_delete=models.PROTECT, related_name='posts')
     likes = models.IntegerField(default=0)
 
     def __str__(self):
