@@ -16,10 +16,6 @@ class UserProfile(models.Model):
 
     avatar = models.ImageField('photo', upload_to='avatars', blank=True)
 
-    date_joined = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-
-
     def __str__(self):
         return f'{self.owner.username}\'s profile'
 
