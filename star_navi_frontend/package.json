@@ -8,8 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "querystring": "^0.2.0",
     "vue": "^2.6.11",
+    "vue-cookies": "^1.7.0",
+    "vue-moment": "^4.1.0",
     "vue-router": "^3.1.6"
   },
   "devDependencies": {
