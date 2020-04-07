@@ -77,17 +77,17 @@ API_SLEEP = soft_get(get_yaml('generator'), 'api_sleep', float)
 ADORABLE_AVATAR = hard_get(get_yaml('project'), 'adorable_avatar')
 
 
-def generate_adorable_avatar(email: str) -> str:
+def generate_adorable_avatar(username: str) -> str:
     """
     Generate user Adorable_avatar using email, and save it.
     Generally any string can be used
-    :param email: user email
+    :param username: user username
     :return: avatar uri
     """
     if ADORABLE_AVATAR:
-        response = r.request('GET', rf'https://api.adorable.io/avatars/150/{email}')
+        response = r.request('GET', rf'https://api.adorable.io/avatars/150/{username}')
         sleep(API_SLEEP)
-        avatar = os.path.join(BASE_DIR, 'media', 'avatars', f'{email}.png')
+        avatar = os.path.join(BASE_DIR, 'media', 'avatars', f'{username}.png')
         with open(avatar, 'wb') as img:
             img.write(response.content)
     else:

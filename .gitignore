@@ -4,6 +4,8 @@ dev_settings.yml
 db.sqlite3
 ToDo
 Notes.md
+*.bak
+migrations/
 
 #python files
 __pycache__/
