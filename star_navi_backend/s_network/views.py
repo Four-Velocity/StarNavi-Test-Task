@@ -22,6 +22,14 @@ class GetPosts(generics.ListCreateAPIView):
         serializer.save(creator=user)
 
 
+class ChangePosts(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Get, Update or delete single post
+    """
+    queryset = Post.objects.all()
+    serializer_class = PostViewSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+
 class GetPostsFiltered(generics.ListAPIView):
     """
     List of all Posts of current user
@@ -42,7 +50,7 @@ class GetUsers(generics.ListAPIView):
     """
     permission_classes = [AllowAny]
     serializer_class = UserViewSerializer
-    
+
     def get_queryset(self):
         """
         Show all users, or get one by id

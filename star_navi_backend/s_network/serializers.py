@@ -1,28 +1,5 @@
-from abc import ABC
-
 from rest_framework import serializers
 from .models import User, UserProfile, Post, Like
-
-
-# class UserDetailsSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = User
-#         fields = ('username', 'email', 'first_name', 'last_name', 'is_active')
-#
-#
-# class UserProfileSerializer(serializers.ModelSerializer):
-#     owner = UserDetailsSerializer(read_only=True)
-#
-#     class Meta:
-#         model = UserProfile
-#         fields = ('owner', 'company', 'role', 'city', 'country', 'bio', 'avatar')
-#
-# class PostSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = Post
-#         fields = ('')
 
 
 class LikePkListField(serializers.RelatedField):
@@ -46,6 +23,7 @@ class PostViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
+            'id',
             'title', 'image', 'text',
             'likes', 'pub_date',
             'creator', 'likes_list',)
