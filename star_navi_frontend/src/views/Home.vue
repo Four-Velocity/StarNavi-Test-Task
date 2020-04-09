@@ -140,9 +140,7 @@ export default {
             return response.data.access;
           });
       }
-      if (refresh === null) {
-        this.$router.push('/login');
-      }
+      this.$router.push('/login');
     },
     loadPosts() {
       let url = 'http://127.0.0.1:8000/api/posts/all/';

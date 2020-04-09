@@ -31,8 +31,6 @@ class Generator:
             max_posts_per_user=None,
             max_likes_per_user=None,
             api_sleep=None,
-            user_avatar=None,
-            # Defaults of start_date and end_date are setting up in generate_post method
             start_date=None,
             end_date=None,
             max_post_length=None,
@@ -144,17 +142,20 @@ class Generator:
         return user
 
     def generation(self):
-        for _ in range(self.NUMBER_OF_USERS):
+        for i in range(self.NUMBER_OF_USERS):
+            print(f'{i+1} of {self.NUMBER_OF_USERS} user generation!').upper()
             u = self.generate_user()
 
             posts = randint(0, self.MAX_POSTS_PER_USER)
 
-            for __ in range(posts):
+            for ii in range(posts):
+                print(f'Post {ii+1}')
                 self.generate_post(u)
 
         users = User.objects.all()
 
         for user in users:
+            print('Generating Likes!').upper()
             likes = randint(0, self.MAX_LIKES_PER_USER)
 
             for _ in range(likes):

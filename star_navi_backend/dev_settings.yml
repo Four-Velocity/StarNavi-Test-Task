@@ -1,0 +1,17 @@
+project:
+  django_secret_key: 'nf($8)==@pyo!)d4ye+()ae3!bh!3*6^z9l*t808jpv33&9p)0'
+  clearbit_key: 'sk_1b04c6ea65ba68b58c44846d3a86e3ac'
+  emailhunter_key: '06761d5edf5fc45312e2c52b8ab2ce8fab4e8750'
+  adorable_avatar: true
+
+generator:
+  number_of_users: 15
+  max_posts_per_user: 10
+  max_likes_per_user: 35
+  api_sleep: 0.07
+  start_date: 2020-02-01
+  end_date: 2020-04-01
+  max_post_length: 2048
+  image_generation: true
+  images_chance: 0.333
+  unsplash_key: 'vl_QVrMQxy3WpG4V4X9n5y9LBhJN3VYncqBxNr3IP5E'
