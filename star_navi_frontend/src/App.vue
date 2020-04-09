@@ -20,9 +20,23 @@
   $field_height: 4.62962962963vh
 
   @import url('https://fonts.googleapis.com/css2?family=Rokkitt:wght@400;600&family=Rubik:wght@300;500;700&display=swap')
+  /* Page Styles*/
   *
     font-family: 'Rubik', sans-serif
 
+  body
+    padding: 0
+    margin: 0
+    background-image: url("./assets/Background.jpg")
+
+  #bg
+    margin: 0
+    position: absolute
+    bottom: 5vh
+    right: 5vw
+    z-index: -100
+
+  /* Scrollbar*/
   ::placeholder
     color: $gray
   ::-webkit-scrollbar
@@ -36,6 +50,8 @@
   ::-webkit-scrollbar-thumb
     background: $accent
     border-radius: 15px
+
+  /*Conten styles*/
   main
     display: flex
     justify-content: space-between
@@ -45,18 +61,8 @@
     width: 100vw
     overflow-x: hidden
     overflow-y: hidden
-  body
-    padding: 0
-    margin: 0
-    background-image: url("./assets/Background.jpg")
 
-    #bg
-      margin: 0
-      position: absolute
-      bottom: 5vh
-      right: 5vw
-      z-index: -100
-
+  /*Sidebar base styles*/
   aside
     width: 25vw
     height: 100vh
@@ -66,7 +72,7 @@
 
     #logo
       width: 5.20833333333vw
-      margin: (25vw - 5.20833333333vw)/2
+      margin: (25vw - 5.20833333333vw)/5 (25vw - 5.20833333333vw)/2
       margin-bottom: 0
 
     .form
@@ -97,6 +103,7 @@
       justify-content: center
       align-items: flex-end
 
+  /*Content div base styles*/
   section
     width: 73vw
     height: 100vh
@@ -107,10 +114,50 @@
     overflow-y: scroll
 
     .register
+      color: $light
+      width: 40vw
+      height: 90%
+      font-size: 1.3em
       display: flex
-      justify-content: right
       flex-direction: column
-
+      align-items: center
+      justify-content: space-evenly
+      margin: 1% auto auto
+      #avatar
+        border-radius: 15px
+        height: $field_width/2.5
+        width: $field_width/2.5
+        .file-input:disabled + label
+          cursor: default
+        .file-input + label
+          border-radius: 15px
+          height: $field_width/2.5
+          width: $field_width/2.5
+          position: relative
+          text-align: center
+          .uploaded
+            height: $field_width/2.5
+            width: $field_width/2.5
+            border-radius: 15px
+          .upload
+            width: $field_width/2.5
+            height: $field_width/2.5*0.25
+            position: absolute
+            bottom: 0
+            z-index: 10
+            display: flex
+            align-content: center
+            justify-content: center
+            border-radius: 0 0 15px 15px
+            background-color: $glass
+            img
+              transition: 0.7s
+              &:hover
+                transform: scale(1.1)
+      textarea
+        resize: none
+        width: 100%
+  /*router urls styles*/
   .button-a, .button-a:visited
     font-size: 1.4em
     color: $accent
@@ -121,7 +168,7 @@
   .button-a:disabled
     cursor: not-allowed
     text-decoration: none
-
+  /*button styles-/
   .big-button
     border: 2px solid $accent
     border-radius: 15px
@@ -144,6 +191,7 @@
         cursor: not-allowed
         background-color: #0000
 
+  /*Small input styles*/
   .char-input
     border: none
     border-bottom: 2px solid $light
@@ -161,22 +209,25 @@
     &:disabled
       cursor: not-allowed
 
+  /*Big input styles*/
   .text-input
     border: none
     border-bottom: 2px solid $light
     border-left: 2px solid $light
     border-bottom-left-radius: 15px
+    border-top-right-radius: 15px
     font-size: 1em
     color: $light
     background-color: #0000
     text-align: center
+    margin-bottom: 2%
     &:focus
       background-color: $glass
       outline: none
     &:disabled
       cursor: not-allowed
 
-  #file-input
+  .file-input
     width: 0.1px
     height: 0.1px
     opacity: 0
@@ -187,8 +238,37 @@
       color: $light
       font-size: 1.4em
       cursor: pointer
-      &:hover
-        text-decoration: underline
+      width: $field_width
+      height: $field_height*4
+      display: inline-block
+      .image-upload
+        width: $field_width
+        height: $field_height*4
+        border-radius: 15px
+        text-align: center
+        position: relative
+        background-color: $glass
+        .uploaded
+          max-height: $field_height*4
+          max-width: $field_width
+          margin: 0
+          border-radius: 15px
+
+        .upload
+          width: 100%
+          height: $field_height*0.7
+          background-color: $glass
+          position: absolute
+          bottom: 0
+          z-index: 10
+          display: flex
+          align-content: center
+          justify-content: center
+          border-radius: 0 0 15px 15px
+          img
+            transition: 0.7s
+            &:hover
+              transform: scale(1.1)
 
   article
     width: 100%
@@ -203,6 +283,27 @@
       font-size: 2em
       text-align: center
       font-weight: 700
+      display: flex
+      padding-left: 10%
+      /*flex-direction: row*/
+      /*align-content: center*/
+      /*justify-content: space-around*/
+      p
+        font-family: Rokkit, serif
+        font-size: 1.3em
+        text-align: center
+        font-weight: 700
+        width: 90%
+        align-self: center
+        margin: 0
+      .trash
+        width: 1.7em
+        height: 1.7em
+        cursor: pointer
+        transition: 0.7s
+        &:hover
+          transform: scale(1.1)
+
 
     .content
       margin-top: 0.5%
@@ -249,7 +350,7 @@
           color: $light
           display: flex
           align-items: center
-          font-size: 1.5em
+          font-size: 1.1em
           cursor: pointer
           margin: 0.5% 0
           transition: 0.7s
@@ -260,6 +361,7 @@
 
       .center
         .button-a
+          font-size: 1.1em
           display: flex
           align-items: center
           color: $light
@@ -291,7 +393,7 @@
     transition-timing-function: ease-out
 
 
-    #cross
+    .cross
       border: none
       background-color: #0000
       color: $accent
@@ -306,6 +408,7 @@
         outline: none
       &:hover
         transform: scale(1.2)
+
     #post-form
       height: 100vh
       margin: auto
@@ -313,5 +416,129 @@
       flex-direction: column
       justify-content: space-around
       align-items: center
+
+  .profile
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: space-around
+    margin: 1% auto auto
+
+    #avatar
+      border-radius: 15px
+      height: $field_width/2.5
+      width: $field_width/2.5
+      .file-input:disabled + label
+          cursor: default
+      .file-input + label
+        border-radius: 15px
+        height: $field_width/2.5
+        width: $field_width/2.5
+        position: relative
+        text-align: center
+        .uploaded
+          height: $field_width/2.5
+          width: $field_width/2.5
+          border-radius: 15px
+        .upload
+          width: $field_width/2.5
+          height: $field_width/2.5*0.25
+          position: absolute
+          bottom: 0
+          z-index: 10
+          display: flex
+          align-content: center
+          justify-content: center
+          border-radius: 0 0 15px 15px
+          background-color: $glass
+          img
+            transition: 0.7s
+            &:hover
+              transform: scale(1.1)
+    nav
+      margin: 2% 0
+      height: $field_height/2
+      width: $field_width
+      display: flex
+      align-content: center
+      justify-content: space-around
+
+      button
+        height: $field_height
+        background: none
+        border: none
+        cursor: pointer
+        transition: 0.7s
+        &:hover
+          transform: scale(1.1)
+        &:focus
+          outline: none
+        &:hover .tooltip
+          visibility: visible
+          opacity: 1
+        .tooltip
+          visibility: hidden
+          opacity: 0
+          width: $field_height*3
+          background: $glass
+          backdrop-filter: blur(5px)
+          color: $light
+          text-align: center
+          padding: 5px 0
+          border-radius: 15px
+
+          position: absolute
+          z-index: 1
+          bottom: 125%
+          left: -60%
+          transition: 0.7s
+          transition-timing-function: ease-in-out
+        img
+          height: $field_height
+          width: $field_height
+    .info
+      margin-top: 5%
+      color: $light
+      font-size: 1.1em
+      width: 85%
+      height: $field_height*10.5
+      align-self: flex-start
+      display: flex
+      flex-direction: column
+      justify-content: space-around
+      div
+        text-align: right
+        padding-right: 15%
+      input
+        width: $field_width/1.17
+        background-color: #0000
+        border: none
+        border-bottom: 2px solid $light
+        font-size: 1.1em
+        color: $light
+        &:disabled
+          border: none
+      textarea
+        width: $field_width/1.17
+        background-color: #0000
+        border: none
+        font-size: 0.9em
+        color: $light
+        resize: none
+        text-align: center
+      #finish
+        padding-left: 30%
+        display: flex
+        justify-content: space-between
+        button
+          background-color: #0000
+          border: none
+          font-size: 2em
+          transition: 0.7s
+          &:hover
+            transform: scale(1.3)
+            cursor: pointer
+          &:focus
+            outline: none
 
 </style>

@@ -15,6 +15,7 @@ from pytz import timezone
 
 class Generator:
     _username = set()
+    _image_counter = 0
 
     def _gen_username(self):
         username = self.fake.user_name()
@@ -86,7 +87,8 @@ class Generator:
 
         if self.IMAGE_GENERATION:
             chance = randint(1, 100)
-            if chance <= self.IMAGES_CHANCE * 100:
+            if chance <= self.IMAGES_CHANCE * 100 and self._image_counter < 50:
+                self._image_counter += 1
                 response = r.request('GET', rf'http://api.unsplash.com/photos/random/?client_id={self.UNSPLASH_KEY}')
                 sleep(self.API_SLEEP)
                 content = response.content

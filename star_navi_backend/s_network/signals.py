@@ -3,7 +3,7 @@ from django.dispatch import receiver
 import os
 from star_navi_backend.utils import generate_adorable_avatar
 from .models import User, Post, Like, UserProfile
-
+from PIL import Image
 
 @receiver(post_save, sender=User)
 def avatar_work(sender, instance=None, created=False, **kwargs):
@@ -25,7 +25,7 @@ def avatar_work(sender, instance=None, created=False, **kwargs):
 
 @receiver(post_save, sender=UserProfile)
 def avatr_normalize(sender, instance=None, **kwargs):
-    """Rename avatar if necessary"""
+    """Rename and crop avatar if necessary"""
     avatar = instance.avatar.path
     username = instance.owner.username
     temp = os.path.split(avatar)
@@ -40,6 +40,15 @@ def avatr_normalize(sender, instance=None, **kwargs):
                     os.remove(os.path.join(avatar_path, file))
         new_avatar = os.path.join(avatar_path, username + avatar_ext)
         os.rename(avatar, new_avatar)
+        im = Image.open(new_avatar)
+        im_w, im_h = im.size
+        if im_w != im_h:
+            im_min = min(im.size)
+            im = im.crop(((im_w - im_min) // 2,
+                          (im_h - im_min) // 2,
+                          (im_w + im_min) // 2,
+                          (im_h + im_min) // 2))
+            im.save(new_avatar, quality=100)
         instance.avatar = new_avatar
         instance.save()
 

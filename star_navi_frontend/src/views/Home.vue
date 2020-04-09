@@ -1,7 +1,9 @@
 <template>
   <main>
     <aside>
-      <img id=logo src="@/assets/logo.png" alt="">
+      <router-link to="/">
+        <img id=logo src="@/assets/logo.png" alt="">
+      </router-link>
       <div class="form">
         <router-link :to="`/user/${id}`">
           <button class="big-button">
@@ -21,19 +23,21 @@
     <section>
       <article v-for="post in posts" :key="post" v-bind:id="post.id">
         <div class="header">
-          {{post.title}}
+          <p>
+            {{post.title}}
+          </p>
         </div>
         <div class="content">
           <img v-if="post.image" v-bind:src="post.image" alt="none">
-          <div class="text">
+          <div v-if="post.text" class="text">
             {{post.text}}
           </div>
         </div>
         <div class="footer">
           <div class="left">
             <button class="like-button" @click="like(post)">
-              <img v-if="post.likes_list.includes(id)" src="@/assets/like.svg">
-              <img v-else src="@/assets/unlike.svg">
+              <img v-if="post.likes_list.includes(id)" src="@/assets/icons/like.svg">
+              <img v-else src="@/assets/icons/unlike.svg">
               {{post.likes}}
             </button>
           </div>
@@ -68,16 +72,21 @@
           <input type="file"
                  name="file"
                  id="file-input"
+                 class="file-input"
                  @change="imageUploaded"
                  ref="fileInput"/>
-          <label for="file-input" id="file-label">Upload Image</label>
-          <p style="font-size: 3em; color: #f96900" v-bind:style="{opacity: fileUploaded}">
-            &#x2713;
-          </p>
+          <label for="file-input" class="file-label">
+            <div class="image-upload">
+              <img :src="uploadedImage" class="uploaded">
+              <div  class="upload">
+                <img src="@/assets/icons/photo.svg" alt="Upload Image">
+              </div>
+            </div>
+          </label>
         </div>
         <button class="big-button" @click="createPost">Create</button>
       </div>
-      <button id="cross"
+      <button class="cross"
               @click="closeCreation"
               v-bind:style="{display: creationVision}">
         &#x2715;
@@ -100,7 +109,7 @@ export default {
       buttonDisable: false,
       creationWidth: '0',
       creationVision: 'none',
-      fileUploaded: 0,
+      uploadedImage: null,
       creation: {
         title: null,
         text: null,
@@ -188,14 +197,20 @@ export default {
     imageUploaded(event) {
       // eslint-disable-next-line prefer-destructuring
       this.creation.image = event.target.files[0];
-      this.fileUploaded = '100%';
+      this.uploadedImage = URL.createObjectURL(this.creation.image);
     },
     createPost() {
       const url = 'http://127.0.0.1:8000/api/posts/all/';
       const formData = new FormData();
       formData.append('title', this.creation.title);
-      formData.append('text', this.creation.text);
-      formData.append('image', this.creation.image, this.creation.image.name);
+      if (this.creation.text !== null) {
+        formData.append('text', this.creation.text);
+      } else {
+        formData.append('text', '');
+      }
+      if (this.creation.image !== null) {
+        formData.append('image', this.creation.image, this.creation.image.name);
+      }
       // let data = { title: this.creation.title, text: this.creation.text };
       // data = this.$qs.stringify(data);
       const token = this.getToken();
@@ -206,14 +221,23 @@ export default {
         },
       };
       this.$http.post(url, formData, config)
-        .then(() => this.closeCreation())
-        .catch();
+        .then(() => {
+          this.retry = 0;
+          this.closeCreation();
+          this.$router.go();
+        })
+        .catch((error) => {
+          if (error.response.status === 401 && this.retry < 4 && token === undefined) {
+            this.retry += 1;
+            this.createPost();
+          }
+        });
     },
     closeCreation() {
       const input = this.$refs.fileInput;
       input.type = 'text';
       input.type = 'image';
-      this.fileUploaded = '0';
+      this.uploadedImage = null;
       this.creationVision = 'none';
       this.creationWidth = 0;
       this.creation = {
