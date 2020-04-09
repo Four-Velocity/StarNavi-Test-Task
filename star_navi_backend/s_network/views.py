@@ -2,7 +2,7 @@ from .serializers import PostViewSerializer, UserViewSerializer, UserProfileSeri
 from rest_framework import generics, views
 from .models import Post, User, UserProfile, Like
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.conf import settings
 from pyhunter import PyHunter
@@ -16,17 +16,27 @@ class GetPosts(generics.ListCreateAPIView):
     """
     queryset = Post.objects.all().order_by('-pub_date')
     serializer_class = PostViewSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(creator=user)
 
 
+class ChangePosts(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Get, Update or delete single post
+    """
+    queryset = Post.objects.all()
+    serializer_class = PostViewSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+
 class GetPostsFiltered(generics.ListAPIView):
     """
     List of all Posts of current user
     """
     serializer_class = PostViewSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """
@@ -40,9 +50,10 @@ class GetUsers(generics.ListAPIView):
     """
     List of all users
     """
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     serializer_class = UserViewSerializer
-    
+
+
     def get_queryset(self):
         """
         Show all users, or get one by id
@@ -62,18 +73,20 @@ class EditProfile(generics.UpdateAPIView):
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = UserProfileSerializer
 
-    def get_queryset(self):
-        """
-        Get profile by id
-        """
-        id = self.kwargs['id']
-        return UserProfile.objects.get(pk=id),
+    # def get_queryset(self):
+    #     """
+    #     Get profile by id
+    #     """
+    #     id = self.kwargs['pk']
+    #     return UserProfile.objects.get(owner=User.objects.get(pk=id))
 
 
 class LikeDislike(generics.UpdateAPIView):
     """
     Like or dislike post
     """
+    permission_classes = [IsAuthenticated]
+
     def put(self, request, *args, **kwargs):
         like = Like.objects.get(post=Post.objects.get(pk=self.kwargs['id']))
         user = request.user
@@ -91,6 +104,7 @@ class Validation(views.APIView):
     """
     Validate email via pyhunter and get additional data from clearbit
     """
+    permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
         email = request.data['email']
         hunter = PyHunter(settings.EMAILHUNTER_KEY)
@@ -102,12 +116,10 @@ class Validation(views.APIView):
         person = clearbit.Person.find(email=email, stream=True)
         if person is not None:
             content.update(dict(
-                name=person['name']['fullName'],
                 company=person['employment']['name'],
                 role=person['employment']['role'],
                 city=person['geo']['city'],
                 country=person['geo']['country'],
                 bio=person['bio'],
-                avatar_url=person['avatar'],
             ))
         return Response(content)

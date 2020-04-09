@@ -1,28 +1,5 @@
-from abc import ABC
-
 from rest_framework import serializers
 from .models import User, UserProfile, Post, Like
-
-
-# class UserDetailsSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = User
-#         fields = ('username', 'email', 'first_name', 'last_name', 'is_active')
-#
-#
-# class UserProfileSerializer(serializers.ModelSerializer):
-#     owner = UserDetailsSerializer(read_only=True)
-#
-#     class Meta:
-#         model = UserProfile
-#         fields = ('owner', 'company', 'role', 'city', 'country', 'bio', 'avatar')
-#
-# class PostSerializer(serializers.ModelSerializer):
-#
-#     class Meta:
-#         model = Post
-#         fields = ('')
 
 
 class LikePkListField(serializers.RelatedField):
@@ -42,18 +19,23 @@ class UserShortField(serializers.RelatedField):
 class PostViewSerializer(serializers.ModelSerializer):
     likes_list = LikePkListField(read_only=True)
     creator = UserShortField(read_only=True)
+    text = serializers.CharField(required=False)
+    image = serializers.ImageField(required=False)
 
     class Meta:
         model = Post
         fields = (
+            'id',
             'title', 'image', 'text',
             'likes', 'pub_date',
             'creator', 'likes_list',)
 
 
+
 class UserProfileField(serializers.RelatedField):
     def to_representation(self, value):
         return dict(
+            id=value.id,
             username=value.owner.username,
             email=value.owner.email,
             full_name=f'{value.owner.first_name} {value.owner.last_name}',
@@ -63,7 +45,6 @@ class UserProfileField(serializers.RelatedField):
             country=value.country,
             bio=value.bio,
             avatar=value.avatar.url,
-            date_joined=value.date_joined,
         )
 
 
@@ -79,7 +60,7 @@ class UserViewSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-
+    avatar = serializers.ImageField(required=False)
     class Meta:
         model = UserProfile
         fields = ('company', 'role',
