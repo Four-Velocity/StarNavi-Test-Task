@@ -4,10 +4,28 @@ This app consists of two parts: backend using *DRF* and frontend using *Vue-cli*
 All apps are in dev stage, so probably I will attach dev settings and secret keys to the repository,
 so U can reproduce the project.  
 
+* [Backend](#backend)
+  * [Libraries](#libraries)
+  * [Settings](#settings)
+    * [Project](#project)
+    * [Generator](#generator)
+  * [Generator bot](#generator-bot)
+* [Frontend](#frontend)
+  * [Packages](#packages)
+  * [Workflow](#workflow)
+    * [Login](#login)
+    * [Register](#register)
+    * [Home](#home)
+    * [User](#user)
+* [Launching](#launching)
+  * [Backend Launching](#backend-launching)
+  * [Frontend Launching](#frontend-launching)
+
+
 ## Backend
 I write backend without TDD, 'cause I want finish fast.  
 Probably I will add some tests, and swager documentation.  
-### Packages
+### Libraries
 The app developed using these libraries.
 
 |Package                        |Version|Description                               |
